@@ -1,15 +1,13 @@
 import React from 'react';
 import {
-  ActivityIndicator,
   Image,
-  Pressable,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from 'react-native';
+import { PressMe } from './src/PressMe';
 
 const Section: React.FC<{
   title: string;
@@ -23,20 +21,6 @@ const Section: React.FC<{
 };
 
 const App = () => {
-  const [text, setText] = React.useState('');
-  const [isLongPressed, setIsLongPressed] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    if (isLoading) {
-      setTimeout(() => {
-        setIsLoading(false);
-        setIsLoaded(true);
-      }, 1500);
-    }
-  }, [isLoading]);
-
   return (
     <ScrollView
       contentInsetAdjustmentBehavior="automatic"
@@ -48,39 +32,7 @@ const App = () => {
 
       <Image source={require('./assets/logo.png')} style={styles.logo} />
 
-      <View style={styles.header}>
-        {!isLoaded && !isLoading && (
-          <Pressable
-            testID="Pressable"
-            onPress={() => setIsLoading(true)}
-            onLongPress={() => setIsLongPressed(true)}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Press Me</Text>
-            <Text style={styles.buttonArrow}>&#8594;</Text>
-          </Pressable>
-        )}
-
-        {isLoading && <ActivityIndicator />}
-
-        {isLongPressed && !isLoading && !isLoaded && (
-          <Text style={styles.textLongPressed}>Long Pressed!</Text>
-        )}
-
-        {!isLoading && isLoaded && (
-          <>
-            <Text style={styles.textInputLabel}>This is a label *</Text>
-
-            <TextInput
-              testID="TextInput"
-              placeholder="Type something here"
-              onChangeText={setText}
-              value={text}
-              style={styles.textInput}
-            />
-          </>
-        )}
-      </View>
+      <PressMe />
 
       <Section title="Setup">
         Install <Text style={styles.highlight}>react-native-owl</Text> and
@@ -128,25 +80,6 @@ const styles = StyleSheet.create({
     width: 175,
     height: 175,
     alignSelf: 'center',
-  },
-  header: {
-    marginVertical: 35,
-  },
-  button: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderWidth: 2,
-    paddingVertical: 7.5,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  buttonArrow: {
-    fontSize: 20,
   },
   sectionContainer: {
     marginBottom: 32,
